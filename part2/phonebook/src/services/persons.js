@@ -9,7 +9,7 @@ const getAll=()=>{
 
 const create=(newPer)=>{
     const req=axios.post(baseURL,newPer);
-    return req.then(rep=>rep.data);
+    return req.then(rep=>rep.data)
 }
 
 const delPer=(peep)=>{

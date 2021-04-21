@@ -36,6 +36,9 @@ const Notification=({message})=>{
   return(<div className='success'>The user was successfully added/updated dawg!</div>)
   }else if(message==='error'){
     return(<div className='error'>The user was already deleted dawg dawg!</div>)
+  }else if(message==='validation'){
+    return(<div className='error'>The name must be at least 3 characters and the number must be at least 8 digits!</div>)
+
   }
 }
 const App = () => {
@@ -67,17 +70,16 @@ const App = () => {
     await pS.delPer(peep)
     pS.getAll()
     .then(allPeeps=>{
-      console.log(allPeeps);
       setPersons(allPeeps);
     })
   }
-  const updateFunc=(peep)=>{
+  const updateFunc= (peep)=>{
     const newPer={
       name:newName,
       id:peep,
       number:newNum
     }
-    return pS.updatePer(peep,newPer);
+    return pS.updatePer(peep,newPer)
   }
 
   const addName=async (event)=>{
@@ -88,7 +90,11 @@ const App = () => {
           await updateFunc(person.id)
           setMessage('success')
         }catch (error){
-          setMessage('error');
+          if(error.response.data.error.includes('Validation')){
+            setMessage('validation');
+          }else{
+            setMessage('error');
+          }
       }
         setTimeout(()=>{setMessage('')},5000)
         setNewName('');
@@ -111,6 +117,10 @@ const App = () => {
       setTimeout(()=>{setMessage('')},5000)
       setNewName('');
       setNewNum('');
+    })
+    .catch(error=>{
+      console.log(error.response.data)
+      setMessage(`validation`)
     })
   }
 
