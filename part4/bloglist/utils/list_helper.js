@@ -48,7 +48,6 @@ const maxLikes = (blogs) => {
     }
     return main;
   }, {top: 0, topAuthor: ''});
-  console.log(mostLikes);
   return {author: mostLikes.topAuthor, likes: mostLikes.top};
 };
 
