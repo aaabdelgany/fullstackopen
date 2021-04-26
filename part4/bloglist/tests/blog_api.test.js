@@ -75,6 +75,47 @@ test('id parameter', async () => {
       .get('/api/blogs');
   expect(res.body[0].id).toBeDefined();
 });
+
+test('adding blog', async () => {
+  const newBlog={
+    title: 'testing',
+    author: 'ya boy',
+    likes: 1500,
+    url: 'google.com',
+  };
+  await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+  const res= await api.get('/api/blogs');
+  expect(res.body).toHaveLength(blogs.length + 1);
+});
+
+test('default likes', async ()=>{
+  const unPopular={
+    title: 'im not popular',
+    author: 'ya boy',
+    url: 'nah.com',
+  };
+  const newBlog = await api
+      .post('/api/blogs')
+      .send(unPopular)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+  expect(newBlog.body.likes).toBe(0);
+});
+
+test('missing title and author', async () => {
+  const badBlog ={
+    likes: 15,
+    author: 'me!',
+  };
+  await api
+      .post('/api/blogs')
+      .send(badBlog)
+      .expect(400);
+});
 afterAll(() => {
   mongoose.connection.close();
 });
