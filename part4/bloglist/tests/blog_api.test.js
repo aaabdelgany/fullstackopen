@@ -91,6 +91,19 @@ describe('blogs testing', ()=>{
     const contents = allBlogs.map((blog) => blog.title);
     expect(contents).not.toContain(delBlog.title);
   });
+
+  test('updating blog', async () => {
+    let allBlogs = await helper.allBlogs();
+    const id = allBlogs[0].id;
+    const upBlog = {title: 'what it do!', url: 'ok den', author: 'hmm'};
+    await api
+        .put(`/api/blogs/${id}`)
+        .send(upBlog)
+        .expect(200);
+    allBlogs = await helper.allBlogs();
+    const myBlog = allBlogs.filter((blog) => blog.id===id);
+    expect(myBlog[0].title).toBe('what it do!');
+  });
 });
 
 afterAll(() => {
