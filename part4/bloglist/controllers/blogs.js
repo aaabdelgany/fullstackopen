@@ -2,27 +2,29 @@
 const blogsRouter=require('express').Router();
 const Blog=require('../models/blog');
 
-blogsRouter.get('/', async (request, response) => {
-  Blog
-      .find({})
-      .then(async (blogs) => {
-        await response.json(blogs);
-      });
+blogsRouter.get('/', async (request, response, next) => {
+  const blogs = await Blog.find({})
+      .catch((error)=>next(error));
+  response.json(blogs);
 });
-blogsRouter.get('/:id', async (req, res) => {
-  const obj = await Blog.findById(req.params.id);
+blogsRouter.get('/:id', async (req, res, next) => {
+  const obj = await Blog.findById(req.params.id)
+      .catch((error)=>next(error));
   res.send(obj);
 });
 
 blogsRouter.post('/', async (request, response, next) => {
   const blog = new Blog(request.body);
 
-  blog
-      .save()
-      .then(async (result) => {
-        await response.status(201).json(result);
-      })
+  await blog.save()
       .catch((error)=>next(error));
+  response.status(201).json(blog);
 });
 
+blogsRouter.delete('/:id', async (req, res, next) => {
+  const id = req.params.id;
+  await Blog.findByIdAndRemove(id)
+      .catch((error) => next(error));
+  res.status(204).end();
+});
 module.exports=blogsRouter;
