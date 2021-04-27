@@ -87,6 +87,9 @@ describe('blogs testing', ()=>{
         .expect(204);
     allBlogs = await helper.allBlogs();
     expect(allBlogs.length).toBe(allLen-1);
+
+    const contents = allBlogs.map((blog) => blog.title);
+    expect(contents).not.toContain(delBlog.title);
   });
 });
 
