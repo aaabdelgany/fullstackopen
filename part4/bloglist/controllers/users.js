@@ -5,14 +5,14 @@ const User = require('../models/user');
 
 
 usersRouter.get('/', async (req, res, next) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('blogs',{user: 0, likes: 0})
       .catch((error)=>next(error));
   res.json(users);
 });
 
 usersRouter.get('/:id', async (req, res, next) => {
   const id = req.params.id;
-  const user = await User.findById(id)
+  const user = await User.findById(id).populate('blogs',{user: 0, likes: 0})
       .catch((error)=>next(error));
   res.json(user);
 });
@@ -22,7 +22,6 @@ usersRouter.post('/', async (req, res, next) => {
   const pw = body.password;
 
   if (!pw || pw.length<3) {
-    console.log('yes plz');
     return res.status(401).json({error: 'invalid username or password!'});
   }
   const saltRounds = 10;

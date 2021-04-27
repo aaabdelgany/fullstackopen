@@ -1,23 +1,28 @@
 // eslint-disable-next-line new-cap
 const blogsRouter=require('express').Router();
 const Blog=require('../models/blog');
-
+const User = require('../models/user');
 blogsRouter.get('/', async (request, response, next) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user',{username: 1, name: 1, id: 1})
       .catch((error)=>next(error));
   response.json(blogs);
 });
 blogsRouter.get('/:id', async (req, res, next) => {
-  const obj = await Blog.findById(req.params.id)
+  const obj = await (await Blog.findById(req.params.id)).populate('user', {username: 1, name: 1, id: 1})
       .catch((error)=>next(error));
   res.send(obj);
 });
 
 blogsRouter.post('/', async (request, response, next) => {
   const blog = new Blog(request.body);
-
+  const users = await User.find({});
+  const user = users[Math.floor(Math.random() * users.length)];
+  blog.user = user.id;
+  console.log(user.id);
   await blog.save()
       .catch((error)=>next(error));
+  user.blogs = user.blogs.concat(blog.id);
+  await user.save();
   response.status(201).json(blog);
 });
 

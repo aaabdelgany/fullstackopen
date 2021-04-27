@@ -10,8 +10,11 @@ const listHelper = require('../utils/list_helper');
 beforeAll(async () => {
   await Blog.deleteMany({});
   for (const blog of blogs) {
-    const newBlog = new Blog(blog);
-    await newBlog.save();
+    await api
+    .post('/api/blogs')
+    .send(blog);
+    // const newBlog = new Blog(blog);
+    // await newBlog.save();
   }
 });
 
@@ -24,7 +27,7 @@ describe('Dummy', ()=>{
   });
 });
 describe('blogs testing', ()=>{
-  test('all notes', async () => {
+  test('all blogs', async () => {
     await api
         .get('/api/blogs')
         .expect(200)
