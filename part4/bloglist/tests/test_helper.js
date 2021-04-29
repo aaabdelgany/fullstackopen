@@ -47,7 +47,7 @@ const initBlogs = [
     title: 'Type wars',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-    likes: 2,
+    likes: 15,
     __v: 0,
   },
 ];

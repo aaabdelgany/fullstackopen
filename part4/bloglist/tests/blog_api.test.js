@@ -5,16 +5,24 @@ const api = supertest(app);
 const Blog = require('../models/blog');
 const helper = require('./test_helper');
 const blogs = helper.initBlogs;
+const users = helper.initUsers;
 const listHelper = require('../utils/list_helper');
-
+let token = '';
 beforeAll(async () => {
   await Blog.deleteMany({});
+  const user=users[0];
+  await api
+    .post('/api/users')
+    .send(user);
+  const {body} = await api
+    .post('/api/login')
+    .send(user);
+    token = body.token;
   for (const blog of blogs) {
     await api
     .post('/api/blogs')
+    .set({Authorization: `bearer ${token}`})
     .send(blog);
-    // const newBlog = new Blog(blog);
-    // await newBlog.save();
   }
 });
 
@@ -49,6 +57,7 @@ describe('blogs testing', ()=>{
     };
     await api
         .post('/api/blogs')
+        .set({Authorization: `bearer ${token}`})
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/);
@@ -64,6 +73,7 @@ describe('blogs testing', ()=>{
     };
     const newBlog = await api
         .post('/api/blogs')
+        .set({Authorization: `bearer ${token}`})
         .send(unPopular)
         .expect(201)
         .expect('Content-Type', /application\/json/);
@@ -77,6 +87,7 @@ describe('blogs testing', ()=>{
     };
     await api
         .post('/api/blogs')
+        .set({Authorization: `bearer ${token}`})
         .send(badBlog)
         .expect(400);
   });
@@ -85,8 +96,10 @@ describe('blogs testing', ()=>{
     let allBlogs = await helper.allBlogs();
     const allLen = allBlogs.length;
     const delBlog = allBlogs[0];
+    console.log(delBlog);
     await api
         .delete(`/api/blogs/${delBlog.id}`)
+        .set({Authorization: `bearer ${token}`})
         .expect(204);
     allBlogs = await helper.allBlogs();
     expect(allBlogs.length).toBe(allLen-1);
