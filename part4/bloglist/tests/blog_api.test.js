@@ -8,6 +8,7 @@ const blogs = helper.initBlogs;
 const users = helper.initUsers;
 const listHelper = require('../utils/list_helper');
 let token = '';
+
 beforeAll(async () => {
   await Blog.deleteMany({});
   const user=users[0];
@@ -46,6 +47,22 @@ describe('blogs testing', ()=>{
     const res = await api
         .get('/api/blogs');
     expect(res.body[0].id).toBeDefined();
+  });
+
+  test('adding blog w/o token', async () => {
+    const newBlog={
+      title: 'testing',
+      author: 'ya boy',
+      likes: 1500,
+      url: 'google.com',
+    };
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401);
+        // .expect('Content-Type', /application\/json/);
+    const res= await api.get('/api/blogs');
+    expect(res.body).toHaveLength(blogs.length);
   });
 
   test('adding blog', async () => {
@@ -96,14 +113,14 @@ describe('blogs testing', ()=>{
     let allBlogs = await helper.allBlogs();
     const allLen = allBlogs.length;
     const delBlog = allBlogs[0];
-    console.log(delBlog);
     await api
         .delete(`/api/blogs/${delBlog.id}`)
         .set({Authorization: `bearer ${token}`})
         .expect(204);
-    allBlogs = await helper.allBlogs();
+        allBlogs = await helper.allBlogs();
+    // console.log(delBlog);
+    // console.log(newAllBlogs);
     expect(allBlogs.length).toBe(allLen-1);
-
     const contents = allBlogs.map((blog) => blog.title);
     expect(contents).not.toContain(delBlog.title);
   });

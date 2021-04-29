@@ -46,10 +46,11 @@ blogsRouter.delete('/:id', middleware.userHandler, async (req, res, next) => {
   try{
     const blog = await Blog.findById(id);
     if (user === blog.user.toString()) {
-      blog.delete();
+      blog.delete()
       res.status(204).end();
+    }else{
+      res.status(401).send({error: 'invalid token or user'});
     }
-    res.status(401).send({error: 'invalid token or user'});
   } catch (error){
     next(error);
   }
