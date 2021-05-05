@@ -14,6 +14,14 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedIn = window.localStorage.getItem('loggedIn');
+    if(loggedIn) {
+      const user = JSON.parse(loggedIn);
+      setUser(user);
+    }
+  }, []);
+
   const userLogin = async (e) => {
     e.preventDefault();
     console.log(`logging in with ${username} and ${password}`);
@@ -24,12 +32,18 @@ const App = () => {
       setUser(user);
       setUsername('');
       setPassword('');
-      console.log('massive success!');
-      console.log(user);
+      window.localStorage.setItem('loggedIn',JSON.stringify(user));
     }catch(error) {
       console.log(error);
     }
   };
+
+  const userLogout = async (e) => {
+    e.preventDefault();
+    window.localStorage.removeItem('loggedIn');
+    setUser(null);
+  }
+
   if(user===null){
     return (
       <div>
@@ -47,6 +61,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <h3>{user.name} logged in</h3> <form onSubmit={userLogout}><button type="submit"> logout </button></form>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
