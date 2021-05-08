@@ -64,7 +64,16 @@ const likeBlog = async(blog) => {
     console.log('error');
   }
 }
-
+const delBlog = async(blogId)=>{
+  const config = {headers: {Authorization: `bearer ${user.token}`}};
+  try{
+    await blogService.delBlog(blogId,config);
+    const all = await blogService.getAll();
+    setBlogs(all);
+  }catch(error) {
+    console.log('error');
+  }
+}
 
   const userLogin = async (e) => {
     e.preventDefault();
@@ -105,7 +114,7 @@ const likeBlog = async(blog) => {
       <div className="content is-large"><h1>Blogs</h1></div>
       <button className="button" onClick={()=>sortBlogs()}>Sort Blogs By Likes</button>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} likeFunc={likeBlog}/>
+        <Blog key={blog.id} blog={blog} likeFunc={likeBlog} delFunc={delBlog} user={user}/>
       )}
     </div>
   )

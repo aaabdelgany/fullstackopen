@@ -15,11 +15,14 @@ const newBlog = async (blog, config) => {
 }
 
 const likeBlog = async (blog, config) => {
-  console.log(blog.id);
   blog.user = blog.user.id;
   const res = await axios.put(`${baseUrl}/${blog.id}`,blog, config);
-  console.log(res.data);
   return res.data;
 }
 
-export default { getAll,newBlog,likeBlog }
+const delBlog = async(blogId,config) => {
+  const res = await axios.delete(`${baseUrl}/${blogId}`, config);
+  return res.data;
+}
+
+export default { getAll,newBlog,likeBlog,delBlog }
