@@ -15,8 +15,10 @@ const App = () => {
   const [code,setCode] = useState('');
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+    blogService.getAll().then(blogs =>{
+
+      setBlogs( blogs.sort((a,b)=>a.likes<b.likes?1 : -1) );
+    }
     )  
   }, [])
 
@@ -33,7 +35,7 @@ const App = () => {
     try{
       await blogService.newBlog(blog,config);
       const all = await blogService.getAll();
-      setBlogs(all);
+      setBlogs(all.sort((a,b)=>a.likes<b.likes?1 : -1));
       setCode('success');
       setTimeout(function(){ 
         setCode('');
@@ -48,18 +50,13 @@ const App = () => {
 
   }
 
-const sortBlogs = () =>{
-  const hmm=blogs.sort((a,b)=>(a.likes>b.likes)? 1 : ((b.likes>a.likes) ? -1 : 0))
-  console.log(hmm);
-  setBlogs(hmm);
-}
 const likeBlog = async(blog) => {
   const config = {headers: {Authorization: `bearer ${user.token}`}};
   blog.likes+=1;
   try{
     await blogService.likeBlog(blog,config);
     const all = await blogService.getAll();
-    setBlogs(all);
+    setBlogs(all.sort((a,b)=>a.likes<b.likes?1 : -1));
   }catch(error) {
     console.log('error');
   }
@@ -69,7 +66,7 @@ const delBlog = async(blogId)=>{
   try{
     await blogService.delBlog(blogId,config);
     const all = await blogService.getAll();
-    setBlogs(all);
+    setBlogs(all.sort((a,b)=>a.likes<b.likes?1 : -1));
   }catch(error) {
     console.log('error');
   }
@@ -112,7 +109,6 @@ const delBlog = async(blogId)=>{
       <h3>{user.name} logged in</h3> <form onSubmit={userLogout}><button className="button is-info"type="submit"> logout </button></form>
       <BlogForm newFunc={newBlog} code={code}/>
       <div className="content is-large"><h1>Blogs</h1></div>
-      <button className="button" onClick={()=>sortBlogs()}>Sort Blogs By Likes</button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} likeFunc={likeBlog} delFunc={delBlog} user={user}/>
       )}
