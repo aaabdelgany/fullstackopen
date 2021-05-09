@@ -12,12 +12,14 @@ const middleware = require('../utils/middleware');
 //   return null;
 // };
 blogsRouter.get('/', async (req, res, next) => {
-  const blogs = await Blog.find({}).populate('user',{username: 1, name: 1, id: 1})
+  const blogs = await Blog.find({})
+      .populate('user', {username: 1, name: 1, id: 1})
       .catch((error)=>next(error));
   res.json(blogs);
 });
 blogsRouter.get('/:id', async (req, res, next) => {
-  const obj = await (await Blog.findById(req.params.id)).populate('user', {username: 1, name: 1, id: 1})
+  const obj = await (await Blog.findById(req.params.id))
+      .populate('user', {username: 1, name: 1, id: 1})
       .catch((error)=>next(error));
   res.send(obj);
 });
@@ -43,18 +45,17 @@ blogsRouter.post('/', middleware.userHandler, async (req, res, next) => {
 blogsRouter.delete('/:id', middleware.userHandler, async (req, res, next) => {
   const id = req.params.id;
   const user = req.user;
-  try{
+  try {
     const blog = await Blog.findById(id);
     if (user === blog.user.toString()) {
-      blog.delete()
+      blog.delete();
       res.status(204).end();
-    }else{
+    } else {
       res.status(401).send({error: 'invalid token or user'});
     }
-  } catch (error){
+  } catch (error) {
     next(error);
   }
-  
 });
 
 blogsRouter.put('/:id', async (req, res, next) => {
