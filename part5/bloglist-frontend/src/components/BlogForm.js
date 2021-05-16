@@ -29,12 +29,12 @@ const BlogForm = (props) => {
   if(visible){
     return (
 
-      <div className="content is-large">
+      <div className="content is-large formDiv">
         <h1>Create New Blog</h1>
         <form onSubmit={addBlog}>
-          <div>title: <input type="text" name="text" value={blogTitle} onChange={({ target }) => setTitle(target.value)}></input></div>
-          <div>author: <input type="text" name="text" value={blogAuthor} onChange={({ target }) => setAuthor(target.value)}></input></div>
-          <div>url: <input type="text" name="text" value={blogUrl} onChange={({ target }) => setUrl(target.value)}></input></div>
+          <div>title: <input id="title" type="text" name="text" value={blogTitle} onChange={({ target }) => setTitle(target.value)}></input></div>
+          <div>author: <input id="author" type="text" name="text" value={blogAuthor} onChange={({ target }) => setAuthor(target.value)}></input></div>
+          <div>url: <input id="url" type="text" name="text" value={blogUrl} onChange={({ target }) => setUrl(target.value)}></input></div>
           <button className="button is-primary" type="submit">create</button>
         </form>
 
@@ -47,7 +47,7 @@ const BlogForm = (props) => {
     <div>
       <Notification code={props.code} title={blogTitle} author={blogAuthor}/>
       <h1>Create New Blog</h1>
-      <button className="button is-primary" type="submit" onClick={() => setVisible(true)}>Create Blog</button>
+      <button className="button is-primary create" type="submit" onClick={() => setVisible(true)}>Create Blog</button>
     </div>
   )
 }
