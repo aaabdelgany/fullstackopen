@@ -35,7 +35,7 @@ const BlogForm = (props) => {
           <div>title: <input id="title" type="text" name="text" value={blogTitle} onChange={({ target }) => setTitle(target.value)}></input></div>
           <div>author: <input id="author" type="text" name="text" value={blogAuthor} onChange={({ target }) => setAuthor(target.value)}></input></div>
           <div>url: <input id="url" type="text" name="text" value={blogUrl} onChange={({ target }) => setUrl(target.value)}></input></div>
-          <button className="button is-primary" type="submit">create</button>
+          <button id="saveButton" className="button is-primary" type="submit">create</button>
         </form>
 
         <button className="button is-warning" type="submit" onClick={() => setVisible(false)}>Hide</button>

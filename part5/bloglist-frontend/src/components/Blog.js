@@ -12,7 +12,7 @@ const Blog = ({ blog,likeFunc,delFunc,user }) => {
   }
   if(visible && user.username===blog.user.username){
     return(
-      <div className="box">
+      <div className="box blog">
         {blog.title} by {blog.author} <button className="button is-info hide" onClick={() => setVisible(false)}>Hide</button> <br/>
         {blog.url}<br/>
         likes {blog.likes} <br/><button className="button is-link like" onClick={() => {likeFunc(blog)}}>Like</button><br/>
@@ -22,7 +22,7 @@ const Blog = ({ blog,likeFunc,delFunc,user }) => {
     )
   }else if(visible){
     return(
-      <div className="box">
+      <div className="box blog">
         {blog.title} by {blog.author} <button className="button is-info hide" onClick={() => setVisible(false)}>Hide</button> <br/>
         {blog.url}<br/>
         likes {blog.likes} <br/><button className="button is-link like" onClick={() => {likeFunc(blog)}}>Like</button><br/>
@@ -31,7 +31,7 @@ const Blog = ({ blog,likeFunc,delFunc,user }) => {
     )
   }
   return(
-    <div className="box">
+    <div className="box blog">
       {blog.title} by {blog.author} <button className="button is-info view" onClick={() => setVisible(true)} >View</button>
     </div>
   )

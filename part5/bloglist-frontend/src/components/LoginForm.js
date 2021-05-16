@@ -7,12 +7,12 @@ const LoginForm =(props) => {
       <Notification code={props.code}/>
       <form onSubmit={props.userLogin}>
         <div>
-          username <input type="text" value={props.username} name = "username" onChange={({ target }) => props.setUsername(target.value)}/>
+          username <input id="username" type="text" value={props.username} name = "username" onChange={({ target }) => props.setUsername(target.value)}/>
         </div>
         <div>
-          password <input type="text" value={props.password} name = "password" onChange={({ target }) => props.setPassword(target.value)} />
+          password <input id="pw" type="text" value={props.password} name = "password" onChange={({ target }) => props.setPassword(target.value)} />
         </div>
-        <button type="submit"> login</button>
+        <button id="loginButton" type="submit"> login</button>
       </form>
     </div>
   )
