@@ -12,7 +12,7 @@ const Notification = () => {
   }
   if (notification){
     return (
-      <div style={style}>You voted for '{notification}'</div>
+      <div style={style}>{notification}</div>
     )
   }
   return (<div />)
