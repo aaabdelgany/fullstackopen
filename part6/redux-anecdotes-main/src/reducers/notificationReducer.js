@@ -1,9 +1,5 @@
-// export const newNoti = (note) => {
-//     return {
-//       type:'NEW',
-//       data:{note}
-//     }
-//   }
+let timeout
+
 export const clearNoti = () => {
     return {
         type:'CLEAR'
@@ -11,12 +7,13 @@ export const clearNoti = () => {
 }
 
 export const setNotification = (notification, expTime) => {
+  clearTimeout(timeout)
   return async dispatch => {
     dispatch({
       type:'NEWNOTI',
       data: {notification}
     })
-    setTimeout(()=>{dispatch({type:'CLEAR'})},expTime*1000)
+    timeout = setTimeout(()=>{dispatch({type:'CLEAR'})},expTime*1000)
   }
 }
 const reducer = (state ='', action) => {
