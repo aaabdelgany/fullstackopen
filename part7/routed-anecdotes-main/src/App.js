@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Switch, Route, Link, useRouteMatch, Redirect} from "react-router-dom"
+import { Switch, Route, Link, useRouteMatch, Redirect, useHistory} from "react-router-dom"
+import  { useField } from './hooks'
 
 const Menu = () => {
   const padding = {
@@ -60,39 +61,53 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const content = useField('text')
+  const {clear: contentClear, ...contentRest} = content
+  const author = useField('text')
+  const {clear: authorClear, ...authorRest} = author
+  const info = useField('text')
+  const {clear: infoClear, ...infoRest} = info
 
+  const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content:content.value,
+      author:author.value,
+      info:info.value,
       votes: 0
     })
+    history.push('/')
   }
+  const clearAll = () => {
 
+    content.clear()
+    author.clear()
+    info.clear()
+  }
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          {/* <input name='content' value={content.value} onChange={content.onChange} /> */}
+          <input name='content' {...contentRest} />
+
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' {...authorRest} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' {...infoRest} />
         </div>
         <button>create</button>
+        <button type="button" onClick={clearAll}>reset</button>
       </form>
+
     </div>
   )
 
@@ -158,9 +173,10 @@ const App = () => {
         <About />
       </Route>
       <Route path="/create">
-        {notification!=='' ? <Redirect to="/anecdotes" /> :<CreateNew addNew={addNew} />}
+        <CreateNew addNew={addNew} />
       </Route>
       <Route path="/">
+      <Notification notification={notification} />
         <AnecdoteList anecdotes={anecdotes} />
       </Route>
     </Switch>
