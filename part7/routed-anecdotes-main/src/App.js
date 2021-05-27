@@ -68,6 +68,7 @@ const CreateNew = (props) => {
   const info = useField('text')
   const {clear: infoClear, ...infoRest} = info
 
+
   const history = useHistory()
 
   const handleSubmit = (e) => {
