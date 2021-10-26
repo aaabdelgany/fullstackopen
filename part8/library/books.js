@@ -157,6 +157,18 @@ const resolvers = {
         return book;
       }
     },
+    editAuthor: (root, args) => {
+      if (authors.find((author) => author.name === args.name)) {
+        const authorEdit = authors.find((author) => author.name === args.name);
+        authorEdit.born = args.setBornTo;
+        authors = authors.map((author) =>
+          author.id === authorEdit.id ? authorEdit : author
+        );
+        return authorEdit;
+      } else {
+        return null;
+      }
+    },
   },
 };
 
