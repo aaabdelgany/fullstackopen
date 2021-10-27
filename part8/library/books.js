@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql, UserInputError } = require('apollo-server');
 const { v1: uuid } = require('uuid');
 
 let authors = [
@@ -145,6 +145,11 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
+      if (books.find((book) => book.name === args.name)) {
+        throw new UserInputError('Book Already Exists!', {
+          invalidArgs: args.name,
+        });
+      }
       if (authors.filter((author) => author.name === args.author).length > 0) {
         const book = { ...args, id: uuid() };
         books = books.concat(book);
@@ -166,7 +171,9 @@ const resolvers = {
         );
         return authorEdit;
       } else {
-        return null;
+        throw new UserInputError('Author Not Found!', {
+          invalidArgs: args.name,
+        });
       }
     },
   },
