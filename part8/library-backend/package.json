@@ -4,7 +4,7 @@
   "description": "",
   "main": "books.js",
   "scripts": {
-    "start": "node books.js",
+    "start": "node library.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

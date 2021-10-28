@@ -113,11 +113,11 @@ const typeDefs = gql`
   type Mutation {
     addBook(
       title: String!
-      published: Int!
+      published: String!
       author: String!
-      genres: [String!]!
+      genres: [String]!
     ): Book
-    editAuthor(name: String!, setBornTo: Int!): Author
+    editAuthor(name: String!, setBornTo: String!): Author
   }
 `;
 
@@ -145,11 +145,11 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      if (books.find((book) => book.name === args.name)) {
-        throw new UserInputError('Book Already Exists!', {
-          invalidArgs: args.name,
-        });
-      }
+      // if (books.find((book) => book.name === args.name)) {
+      //   throw new UserInputError('Book Already Exists!', {
+      //     invalidArgs: args.name,
+      //   });
+      // }
       if (authors.filter((author) => author.name === args.author).length > 0) {
         const book = { ...args, id: uuid() };
         books = books.concat(book);

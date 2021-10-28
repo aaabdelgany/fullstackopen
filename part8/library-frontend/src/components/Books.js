@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Books = ({ show, books }) => {
-  console.log(books);
   if (!show) {
     return null;
   }

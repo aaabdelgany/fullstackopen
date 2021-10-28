@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
+import SetBirthYear from './components/SetBirthYear';
 import { useQuery } from '@apollo/client';
-import { ALL_Authors, ALL_Books } from './components/queries';
+import { ALL_AUTHORS, ALL_BOOKS } from './queries';
 
 const App = () => {
   const [page, setPage] = useState('authors');
-  const authors = useQuery(ALL_Authors);
-  const books = useQuery(ALL_Books);
+  const authors = useQuery(ALL_AUTHORS);
+  const books = useQuery(ALL_BOOKS);
+
   return (
     <div>
       <div>
@@ -18,6 +20,7 @@ const App = () => {
       </div>
 
       <Authors authors={authors} show={page === 'authors'} />
+      <SetBirthYear show={page === 'authors'} />
 
       <Books books={books} show={page === 'books'} />
 
