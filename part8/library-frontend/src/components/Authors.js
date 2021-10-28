@@ -4,8 +4,9 @@ const Authors = ({ show, authors }) => {
   if (!show) {
     return null;
   }
-  console.log(authors);
-  return (
+  return authors.loading ? (
+    'loading '
+  ) : (
     <div>
       <h2>authors</h2>
       <table>
