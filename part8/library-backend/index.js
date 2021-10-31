@@ -142,7 +142,10 @@ const resolvers = {
   Query: {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
-    allBooks: (root, args) => {
+    allBooks: async (root, args) => {
+      if (args.genre) {
+        return await Book.find({ genres: args.genre });
+      }
       // if (args.author) {
       //   return books.filter((book) => book.author === args.author);
       // } else if (args.genre) {
@@ -150,7 +153,7 @@ const resolvers = {
       // } else {
       //   return books;
       // }
-      return Book.find({});
+      return await Book.find({});
     },
     allAuthors: () => {
       // return authors.map((author) => {
