@@ -164,15 +164,28 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
-      if (await Book.findOne({ name: args.name })) {
+      if (await Book.findOne({ title: args.title })) {
         throw new UserInputError('Book Already Exists!', {
           invalidArgs: args.name,
         });
       }
       let author = await Author.findOne({ name: args.author });
       if (!author) {
+        if (args.author.length < 4) {
+          throw new UserInputError(
+            'Author names must be 4 characters or more!',
+            {
+              invalidArgs: args.author,
+            }
+          );
+        }
         author = new Author({ name: args.author });
         await author.save();
+      }
+      if (args.title.length < 2) {
+        throw new UserInputError('Titles must be 2 characters or more!', {
+          invalidArgs: args.author,
+        });
       }
       const book = new Book({ ...args, author: author.id });
       return book.save();
