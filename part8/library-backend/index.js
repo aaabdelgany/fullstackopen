@@ -1,5 +1,22 @@
 const { ApolloServer, gql, UserInputError } = require('apollo-server');
 const { v1: uuid } = require('uuid');
+const mongoose = require('mongoose');
+const Author = require('./models/Author');
+const Book = require('./models/Book');
+require('dotenv').config();
+let MONGODB_URI = '';
+process.env.ENV === 'DEV'
+  ? (MONGODB_URI = process.env.DEV_MONGODB_URI)
+  : (MONGODB_URI = process.env.MONGODB_URI);
+console.log('connecting to', MONGODB_URI);
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log('connected to MongoDB');
+  })
+  .catch((error) => {
+    console.log('error connection to MongoDB:', error.message);
+  });
 
 let authors = [
   {
@@ -93,9 +110,9 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: String!
-    id: ID!
+    author: Author!
     genres: [String!]!
+    id: ID!
   }
   type Author {
     name: String!
@@ -123,53 +140,49 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
+    bookCount: () => Book.collection.countDocuments(),
+    authorCount: () => Author.collection.countDocuments(),
     allBooks: (root, args) => {
-      if (args.author) {
-        return books.filter((book) => book.author === args.author);
-      } else if (args.genre) {
-        return books.filter((book) => book.genres.includes(args.genre));
-      } else {
-        return books;
-      }
+      // if (args.author) {
+      //   return books.filter((book) => book.author === args.author);
+      // } else if (args.genre) {
+      //   return books.filter((book) => book.genres.includes(args.genre));
+      // } else {
+      //   return books;
+      // }
+      return Book.find({});
     },
     allAuthors: () => {
-      return authors.map((author) => {
-        const bookCount = books.filter(
-          (book) => book.author === author.name
-        ).length;
-        return { ...author, bookCount };
-      });
+      // return authors.map((author) => {
+      //   const bookCount = books.filter(
+      //     (book) => book.author === author.name
+      //   ).length;
+      //   return { ...author, bookCount };
+      // });
+      return Author.find({});
     },
   },
   Mutation: {
-    addBook: (root, args) => {
-      // if (books.find((book) => book.name === args.name)) {
-      //   throw new UserInputError('Book Already Exists!', {
-      //     invalidArgs: args.name,
-      //   });
-      // }
-      if (authors.filter((author) => author.name === args.author).length > 0) {
-        const book = { ...args, id: uuid() };
-        books = books.concat(book);
-        return book;
-      } else {
-        const book = { ...args, id: uuid() };
-        books = books.concat(book);
-        const author = { name: args.author, id: uuid() };
-        authors = authors.concat(author);
-        return book;
+    addBook: async (root, args) => {
+      if (await Book.findOne({ name: args.name })) {
+        throw new UserInputError('Book Already Exists!', {
+          invalidArgs: args.name,
+        });
       }
+      let author = await Author.findOne({ name: args.author });
+      if (!author) {
+        author = new Author({ name: args.author });
+        await author.save();
+      }
+      const book = new Book({ ...args, author: author.id });
+      return book.save();
     },
-    editAuthor: (root, args) => {
-      if (authors.find((author) => author.name === args.name)) {
-        const authorEdit = authors.find((author) => author.name === args.name);
-        authorEdit.born = args.setBornTo;
-        authors = authors.map((author) =>
-          author.id === authorEdit.id ? authorEdit : author
-        );
-        return authorEdit;
+    editAuthor: async (root, args) => {
+      const author = await Author.findOne({ name: args.name });
+      if (author) {
+        author.born = args.setBornTo;
+        console.log(author);
+        return author.save();
       } else {
         throw new UserInputError('Author Not Found!', {
           invalidArgs: args.name,
