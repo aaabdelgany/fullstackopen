@@ -39,7 +39,7 @@ const typeDefs = gql`
   type Author {
     name: String!
     born: String
-    bookCount: Int!
+    bookCount: Int
     id: ID!
   }
   type User {
@@ -51,7 +51,7 @@ const typeDefs = gql`
     value: String!
   }
   type Query {
-    bookCount: Int!
+    bookCount: Int
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
@@ -88,7 +88,7 @@ const resolvers = {
       return await Book.find({});
     },
     allAuthors: () => {
-      return Author.find({});
+      return Author.find({}).clone().exec();
     },
     me: (root, args, context) => {
       return context.currentUser;

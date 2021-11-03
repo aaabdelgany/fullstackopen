@@ -11,6 +11,7 @@ const App = () => {
   const [error, setError] = useState('');
   const authors = useQuery(ALL_AUTHORS);
   const books = useQuery(ALL_BOOKS);
+  console.log(books);
   const Error = () => {
     if (!error) return null;
     return <div style={{ color: 'red' }}>{error}</div>;
