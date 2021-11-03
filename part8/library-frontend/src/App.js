@@ -17,7 +17,11 @@ const App = () => {
     if (!error) return null;
     return <div style={{ color: 'red' }}>{error}</div>;
   };
-
+  const logout = () => {
+    setToken(null);
+    localStorage.clear();
+    console.log(localStorage);
+  };
   const errorNotify = (err) => {
     setError(err);
     setTimeout(() => {
@@ -30,8 +34,16 @@ const App = () => {
         <Error />
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
-        <button onClick={() => setPage('login')}>Login</button>
+        {token ? (
+          <button onClick={() => setPage('add')}>add book</button>
+        ) : (
+          <div />
+        )}
+        {token ? (
+          <button onClick={() => logout()}>Logout</button>
+        ) : (
+          <button onClick={() => setPage('login')}>Login</button>
+        )}
       </div>
 
       <Authors authors={authors} show={page === 'authors'} />
@@ -42,6 +54,7 @@ const App = () => {
         show={page === 'login'}
         errorNotify={errorNotify}
         setToken={setToken}
+        setPage={setPage}
       />
     </div>
   );
