@@ -23,7 +23,7 @@ export const ADD_BOOK = gql`
   mutation AddBookMutation(
     $title: String!
     $published: String!
-    $author: String!
+    $author: Author!
     $genres: [String]!
   ) {
     addBook(
@@ -34,7 +34,6 @@ export const ADD_BOOK = gql`
     ) {
       title
       published
-      author
       genres
     }
   }

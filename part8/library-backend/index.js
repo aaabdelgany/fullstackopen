@@ -76,19 +76,41 @@ const resolvers = {
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       if (args.genre) {
-        return await Book.find({ genres: args.genre });
+        const books = await Book.find({ genres: args.genre });
+        const returnBooks = [];
+        for (let book of books) {
+          const author = await Author.findOne({ _id: book.author });
+          returnBooks.push({ ...book._doc, author });
+        }
+        return returnBooks;
+      } else if (args.author) {
+        const author = await Author.findOne({ name: args.author });
+        const books = await Book.find({ author: author });
+        const returnBooks = [];
+        for (let book of books) {
+          returnBooks.push({ ...book._doc, author });
+        }
+
+        console.log(returnBooks);
+        return returnBooks;
       }
-      // if (args.author) {
-      //   return books.filter((book) => book.author === args.author);
-      // } else if (args.genre) {
-      //   return books.filter((book) => book.genres.includes(args.genre));
-      // } else {
-      //   return books;
-      // }
-      return await Book.find({});
+      const returnBooks = [];
+      const books = await Book.find({});
+      for (let book of books) {
+        const author = await Author.findOne({ _id: book.author });
+        returnBooks.push({ ...book._doc, author });
+      }
+      return returnBooks;
     },
-    allAuthors: () => {
-      return Author.find({}).clone().exec();
+    allAuthors: async () => {
+      const authors = await Author.find({}).clone().exec();
+      return authors;
+      // const returnAuthors = [];
+      // for (let author of authors) {
+      //   const bookCount = await Book.find({ author: author._id });
+      //   returnAuthors.push({ ...author._doc, bookCount: bookCount.length });
+      // }
+      // return returnAuthors;
     },
     me: (root, args, context) => {
       return context.currentUser;
@@ -124,6 +146,9 @@ const resolvers = {
         });
       }
       const book = new Book({ ...args, author: author.id });
+      await Author.findByIdAndUpdate(author.id, {
+        bookCount: author.bookCount + 1,
+      });
       return book.save();
     },
     editAuthor: async (root, args, context) => {

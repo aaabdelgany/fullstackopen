@@ -8,7 +8,12 @@ const schema = new mongoose.Schema({
     minlength: 4,
   },
   born: {
+    type: String,
+    default: '----',
+  },
+  bookCount: {
     type: Number,
+    default: 1,
   },
 });
 
