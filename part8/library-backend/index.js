@@ -90,8 +90,6 @@ const resolvers = {
         for (let book of books) {
           returnBooks.push({ ...book._doc, author });
         }
-
-        console.log(returnBooks);
         return returnBooks;
       }
       const returnBooks = [];

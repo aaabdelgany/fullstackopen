@@ -3,12 +3,14 @@ import Authors from './components/Authors';
 import Books from './components/Books';
 import NewBook from './components/NewBook';
 import SetBirthYear from './components/SetBirthYear';
+import Login from './components/Login';
 import { useQuery } from '@apollo/client';
 import { ALL_AUTHORS, ALL_BOOKS } from './queries';
 
 const App = () => {
   const [page, setPage] = useState('authors');
   const [error, setError] = useState('');
+  const [token, setToken] = useState(null);
   const authors = useQuery(ALL_AUTHORS);
   const books = useQuery(ALL_BOOKS);
   const Error = () => {
@@ -29,12 +31,18 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
+        <button onClick={() => setPage('login')}>Login</button>
       </div>
 
       <Authors authors={authors} show={page === 'authors'} />
       <SetBirthYear show={page === 'authors'} errorNotify={errorNotify} />
       <Books books={books} show={page === 'books'} />
       <NewBook show={page === 'add'} errorNotify={errorNotify} />
+      <Login
+        show={page === 'login'}
+        errorNotify={errorNotify}
+        setToken={setToken}
+      />
     </div>
   );
 };
