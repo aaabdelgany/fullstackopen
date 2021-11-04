@@ -10,7 +10,8 @@ import { ALL_AUTHORS, ALL_BOOKS } from './queries';
 const App = () => {
   const [page, setPage] = useState('authors');
   const [error, setError] = useState('');
-  const [token, setToken] = useState(null);
+  const localToken = localStorage.getItem('login-user-token');
+  const [token, setToken] = useState(localToken ? localToken : null);
   const authors = useQuery(ALL_AUTHORS);
   const books = useQuery(ALL_BOOKS);
   const Error = () => {
@@ -20,7 +21,6 @@ const App = () => {
   const logout = () => {
     setToken(null);
     localStorage.clear();
-    console.log(localStorage);
   };
   const errorNotify = (err) => {
     setError(err);
@@ -37,7 +37,7 @@ const App = () => {
         {token ? (
           <button onClick={() => setPage('add')}>add book</button>
         ) : (
-          <div />
+          <></>
         )}
         {token ? (
           <button onClick={() => logout()}>Logout</button>
