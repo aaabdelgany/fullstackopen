@@ -16,8 +16,6 @@ const Books = ({ show, books }) => {
       await setBooks(
         books.data.allBooks.filter((book) => book.genres.includes(genre))
       );
-      console.log(filterBooks);
-      // if (!filterBooks) setBooks([]);
     }
   };
   if (!show) {
