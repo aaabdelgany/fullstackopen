@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Books = ({ show, books }) => {
+  const [genre, setGenre] = useState('');
+  const [filterBooks, setBooks] = useState([]);
+  useEffect(() => {
+    if (books.data) {
+      setBooks(books.data.allBooks);
+    }
+  }, [books]);
+  const submit = async (event) => {
+    event.preventDefault();
+    if (genre === '') {
+      setBooks(books.data.allBooks);
+    } else {
+      await setBooks(
+        books.data.allBooks.filter((book) => book.genres.includes(genre))
+      );
+      console.log(filterBooks);
+      // if (!filterBooks) setBooks([]);
+    }
+  };
   if (!show) {
     return null;
   }
@@ -18,7 +37,7 @@ const Books = ({ show, books }) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.data.allBooks.map((a) => (
+          {filterBooks.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -27,6 +46,16 @@ const Books = ({ show, books }) => {
           ))}
         </tbody>
       </table>
+      <form onSubmit={submit}>
+        <div>
+          Genre
+          <input
+            value={genre}
+            onChange={({ target }) => setGenre(target.value)}
+          />
+        </div>
+        <button type="submit">Filter by Genre</button>
+      </form>
     </div>
   );
 };
