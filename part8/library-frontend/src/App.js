@@ -25,6 +25,7 @@ const App = () => {
   };
   const errorNotify = (err) => {
     setError(err);
+    console.log(err);
     setTimeout(() => {
       setError(null);
     }, 10000);
