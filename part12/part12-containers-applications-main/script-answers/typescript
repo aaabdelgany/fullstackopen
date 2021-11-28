@@ -1,0 +1,23 @@
+Script started on Sun Nov 28 17:48:59 2021
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+[?1034hbash-3.2$ docker container run -it ubuntu bash
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+]0;root@16163d33e4ca: /root@16163d33e4ca:/# 
+]0;root@16163d33e4ca: /root@16163d33e4ca:/# ls
+[0m[01;36mbin[0m   [01;34mdev[0m  [01;34mhome[0m  [01;36mlib32[0m  [01;36mlibx32[0m  [01;34mmnt[0m  [01;34mproc[0m  [01;34mrun[0m   [01;34msrv[0m  [30;42mtmp[0m  [01;34mvar[0m
+[01;34mboot[0m  [01;34metc[0m  [01;36mlib[0m   [01;36mlib64[0m  [01;34mmedia[0m   [01;34mopt[0m  [01;34mroot[0m  [01;36msbin[0m  [01;34msys[0m  [01;34musr[0m
+]0;root@16163d33e4ca: /root@16163d33e4ca:/# mkdir /usr/src/app
+]0;root@16163d33e4ca: /root@16163d33e4ca:/# cd /usr/src/app
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# ls
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# touch index.kjs   js
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# 
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# 
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# ex  exit
+exit
+bash-3.2$ exit
+exit
+
+Script done on Sun Nov 28 17:49:30 2021
