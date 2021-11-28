@@ -1,0 +1,18 @@
+Script started on Sun Nov 28 17:56:16 2021
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+[?1034hbash-3.2$ d[Kls
+12.2			exercise12_1.txt	typescript
+bash-3.2$ docker start -i objective_mclaren
+]0;root@16163d33e4ca: /root@16163d33e4ca:/# cd /usr/src/app/
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# ls
+index.js
+]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# nano index.js 
+[?2004h[?1049h[22;0;0t[1;34r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[32;51H(B[0;7m[ Reading... ](B[m[32;50H(B[0;7m[ Read 0 lines ](B[m[H(B[0;7m  GNU nano 4.8                                         index.js                                                    [1;114H(B[m[33d(B[0;7m^G(B[m Get Help     (B[0;7m^O(B[m Write Out    (B[0;7m^W(B[m Where Is     (B[0;7m^K(B[m Cut Text     (B[0;7m^J(B[m Justify[81G(B[0;7m^C(B[m Cur Pos[97G(B[0;7mM-U(B[m Undo[34d(B[0;7m^X(B[m Exit[34;17H(B[0;7m^R(B[m Read File    (B[0;7m^\(B[m Replace[49G(B[0;7m^U(B[m Paste Text   (B[0;7m^T(B[m To Spell     (B[0;7m^_(B[m Go To Line   (B[0;7mM-E(B[m Redo[32d[2d[39;49m(B[m[?12l[?25h[?25l[1;106H(B[0;7mModified(B[m[2dc[?12l[?25h[?25lo[?12l[?25h[?25ln[?12l[?25h[?25ls[?12l[?25h[?25lo[?12l[?25h[?25ll[?12l[?25h[?25le[?12l[?25h[?25l.[?12l[?25h[?25ll[?12l[?25h[?25lo[?12l[?25h[?25lg[?12l[?25h[?25l([?12l[?25h[?25l'[?12l[?25h[?25lH[?12l[?25h[?25le[?12l[?25h[?25ll[?12l[?25h[?25ll[?12l[?25h[?25lo[?12l[?25h[?25l[42m [49m(B[m[?12l[?25h[?25l W[?12l[?25h[?25lo[?12l[?25h[?25lr[?12l[?25h[?25ll[?12l[?25h[?25ld[?12l[?25h[?25l[2;13H(B[0;1m[35m'Hello World'[39m(B[m[?12l[?25h[?25l)[32d[K[2;27H[?12l[?25h[?25l;[?12l[?25h[?25l[3d[?12l[?25h[?25l:[?12l[?25h[?25lo[?12l[?25h[?25l[4d[?12l[?25h[?25l[A:o[?12l[?25h[?25l [?12l[?25h[?25l[K[?12l[?25h[?25l[33;17H            (B[0;7mM-D(B[m DOS Format[14X[33;57H(B[0;7mM-A(B[m Append        [81G    (B[0;7mM-B(B[m Backup File[K[34;2H(B[0;7mC(B[m Cancel[17G            (B[0;7mM-M(B[m Mac Format[49G        (B[0;7mM-P(B[m Prepend[17X[34;85H(B[0;7m^T(B[m To Files[K[32d(B[0;7mFile Name to Write: index.js                                                                                       [32;1H(B[m[32;29H[?12l[?25h[?25l[32;50H[1K (B[0;7m[ Writing... ](B[m[K[1;106H(B[0;7m        (B[m[32;50H(B[0;7m[ Wrote 2 lines ](B[m[33;17H(B[0;7m^O(B[m Write Out    (B[0;7m^W(B[m Where Is     (B[0;7m^K(B[m Cut Text     (B[0;7m^J(B[m Justify[81G(B[0;7m^C(B[m Cur Pos      (B[0;7mM-U(B[m Undo[34;2H(B[0;7mX(B[m Exit  [17G(B[0;7m^R(B[m Read File    (B[0;7m^\(B[m Replace[49G(B[0;7m^U(B[m Paste Text   (B[0;7m^T(B[m To Spell     (B[0;7m^_(B[m Go To Line   (B[0;7mM-E(B[m Redo[32d[3d[?12l[?25h[?25l[32d[J[34d[?12l[?25h[34;1H[?1049l[23;0;0t[?1l>[?2004l]0;root@16163d33e4ca: /usr/src/approot@16163d33e4ca:/usr/src/app# exit
+exit
+bash-3.2$ exit
+exit
+
+Script done on Sun Nov 28 17:57:04 2021
